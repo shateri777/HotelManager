@@ -3,13 +3,13 @@ using HotellApp_Databasteknik_2.Utilities.Menu_Details;
 using HotellApp_Databasteknik_2.Utilities.CRUD.Bookings;
 using HotellApp_Databasteknik_2.Utilities.CRUD.Customers;
 using HotellApp_Databasteknik_2.Utilities.CRUD.Rooms;
-using HotellApp_Databasteknik_2.Utilities;
 using HotellApp_Databasteknik_2.Data;
-namespace HotellApp_Databasteknik_2
+using HotellApp_Databasteknik_2.Utilities.Calendar;
+namespace HotellApp_Databasteknik_2.Utilities.AutoFac
 {
     public static class AutofacConfig
     {
-        public static Autofac.IContainer ConfigureContainer()
+        public static IContainer ConfigureContainer()
         {
             var builder = new ContainerBuilder();
 

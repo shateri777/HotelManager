@@ -1,7 +1,6 @@
 ﻿using HotellApp_Databasteknik_2.Utilities.CRUD.Bookings;
 using HotellApp_Databasteknik_2.Utilities.CRUD.Customers;
 using HotellApp_Databasteknik_2.Utilities.CRUD.Rooms;
-
 namespace HotellApp_Databasteknik_2.Utilities.Menu_Details
 {
     public class MenuControls
@@ -49,7 +48,6 @@ namespace HotellApp_Databasteknik_2.Utilities.Menu_Details
             _updateBooking = updateBooking;
             _deleteBooking = deleteBooking;
         }
-
         public void MainMenu(byte userInputMainMenu)
         {
             switch (userInputMainMenu)
@@ -74,7 +72,6 @@ namespace HotellApp_Databasteknik_2.Utilities.Menu_Details
                     break;
             }
         }
-
         public void CustomerMenu(byte userInputCustomerMenu)
         {
             switch (userInputCustomerMenu)
@@ -92,11 +89,9 @@ namespace HotellApp_Databasteknik_2.Utilities.Menu_Details
                     _deleteCustomer.Delete();
                     break;
                 case 0:
-                    MainMenu(0);
                     break;
             }
         }
-
         public void RoomMenu(byte userInputRoomMenu)
         {
             switch (userInputRoomMenu)
@@ -114,11 +109,9 @@ namespace HotellApp_Databasteknik_2.Utilities.Menu_Details
                     _deleteRoom.Delete();
                     break;
                 case 0:
-                    MainMenu(0);
                     break;
             }
         }
-
         public void BookingMenu(byte userInputBookingMenu)
         {
             switch (userInputBookingMenu)
@@ -136,7 +129,6 @@ namespace HotellApp_Databasteknik_2.Utilities.Menu_Details
                     _deleteBooking.Delete();
                     break;
                 case 0:
-                    MainMenu(0);
                     break;
             }
         }

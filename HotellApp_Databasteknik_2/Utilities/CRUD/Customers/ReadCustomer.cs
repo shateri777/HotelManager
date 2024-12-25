@@ -37,7 +37,9 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Customers
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Det finns inga kunder än...");
+                    Console.ResetColor();
                     Console.WriteLine($"Tryck valfri knapp för att gå vidare...");
                     Console.ReadKey();
                 }

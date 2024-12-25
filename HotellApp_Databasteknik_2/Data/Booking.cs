@@ -1,6 +1,4 @@
-﻿using HotellApp_Databasteknik_2.Migrations;
-
-namespace HotellApp_Databasteknik_2.Data
+﻿namespace HotellApp_Databasteknik_2.Data
 {
     public class Booking
     {

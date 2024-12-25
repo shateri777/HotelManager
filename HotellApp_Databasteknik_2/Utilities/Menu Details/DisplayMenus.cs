@@ -16,22 +16,18 @@
         {
             DisplayMenu(MainMenuHeader, MainMenuOptions);
         }
-
         public void CustomerMenu()
         {
             DisplayMenu(CustomerMenuHeader, CustomerMenuOptions);
         }
-
         public void RoomMenu()
         {
             DisplayMenu(RoomMenuHeader, RoomMenuOptions);
         }
-
         public void BookingMenu()
         {
             DisplayMenu(BookingMenuHeader, BookingMenuOptions);
         }
-
         private void DisplayMenu(string header, string options)
         {
             Console.Clear();

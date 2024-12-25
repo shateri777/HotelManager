@@ -14,12 +14,14 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Bookings
                     Console.Clear();
                     foreach (var b in activeBookings)
                     {
-                        Console.WriteLine($"BookingID: {b.BookingId}, (FK)RoomID: {b.RoomId}, (FK)CustomerID: {b.CustomerId}, Start date: {b.CheckInDate}, End date: {b.CheckOutDate}");
+                        Console.WriteLine($"BookingID: {b.BookingId}, (FK)CustomerID: {b.CustomerId}, (FK)RoomID: {b.RoomId}, Start date: {b.CheckInDate}, End date: {b.CheckOutDate}");
                     }
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Det finns inga aktiva bokningar just nu.");
+                    Console.ResetColor();
                 }
                 Console.WriteLine("Tryck valfri knapp för att gå tillbaka..");
                 Console.ReadKey();

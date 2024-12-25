@@ -17,27 +17,53 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Customers
                         var customers = dbContext.Customer.OrderByDescending(c=> c.IsActive).ToList();
                         foreach (var c in customers)
                         {
-                            Console.WriteLine($"ID: {c.CustomerId}, {c.FirstName} {c.LastName}. (Aktiv Kund: {c.IsActive})");
+                            Console.WriteLine($"ID: {c.CustomerId}, {c.FirstName} {c.LastName}. Active {c.IsActive}");
                         }
                         Console.WriteLine("Vilken kund vill du uppdatera?");
                         var customerIdInput = Convert.ToInt32(Console.ReadLine());
                         var chosenCustomer = dbContext.Customer.FirstOrDefault(c => c.CustomerId == customerIdInput);
                         if (chosenCustomer != null)
                         {
-                            Console.WriteLine("Vad heter kunden förnamn?");
+                            Console.WriteLine("Vad heter kunden förnamn? (Max 100 karaktärer)");
                             chosenCustomer.FirstName = Console.ReadLine();
-
-                            Console.WriteLine("Vad heter kundens efternamn?");
+                            if (string.IsNullOrWhiteSpace(chosenCustomer.FirstName) || chosenCustomer.FirstName.Length > 100)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Förnamnet kan inte vara tomt eller överstiga 100 karaktärer.");
+                                Console.ResetColor();
+                                Console.ReadKey();
+                                return;
+                            }
+                            Console.WriteLine("Vad heter kundens efternamn? (Max 100 karaktärer)");
                             chosenCustomer.LastName = Console.ReadLine();
-
-                            Console.WriteLine("Vad är kundens email?");
+                            if (string.IsNullOrWhiteSpace(chosenCustomer.LastName) || chosenCustomer.LastName.Length > 100)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Efternamnet kan inte vara tomt eller överstiga 100 karaktärer.");
+                                Console.ResetColor();
+                                Console.ReadKey();
+                                return;
+                            }
+                            Console.WriteLine("Vad är kundens email? (Max 256 karaktärer)");
                             chosenCustomer.Email = Console.ReadLine();
-
-                            Console.WriteLine("Vad är kundens telnr?");
+                            if (chosenCustomer.Email.Length > 256)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Kundens email kan inte överstiga 256 karaktärer.");
+                                Console.ResetColor();
+                                Console.ReadKey();
+                                return;
+                            }
+                            Console.WriteLine("Vad är kundens telnr? (Max 15 karaktärer)");
                             chosenCustomer.PhoneNumber = Console.ReadLine();
-
-                            dbContext.SaveChanges();
-                            return;
+                            if (chosenCustomer.PhoneNumber.Length > 15)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Telefonnummret kan inte överstiga 15 karaktärer.");
+                                Console.ResetColor();
+                                Console.ReadKey();
+                                return;
+                            }
                         }
                         else
                         {
@@ -56,7 +82,7 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Customers
                         {
                             foreach (var c in deletedCustomers)
                             {
-                                Console.WriteLine($"ID: {c.CustomerId}, {c.FirstName} {c.LastName}. (Aktiv Kund: {c.IsActive})");
+                                Console.WriteLine($"ID: {c.CustomerId}, {c.FirstName} {c.LastName}. Active {c.IsActive}");
                             }
                             Console.WriteLine("Vilken kund vill du ta tillbaka? (Välj ID)");
                             var customerIdInput = Convert.ToInt32(Console.ReadLine());
@@ -65,7 +91,7 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Customers
                             {
                                 chosenCustomer.IsActive = true;
                                 Console.WriteLine("Kunden är nu aktiv!");
-                                Console.WriteLine($"ID: {chosenCustomer.CustomerId}, {chosenCustomer.FirstName} {chosenCustomer.LastName}. (Aktiv Kund: {chosenCustomer.IsActive})");
+                                Console.WriteLine($"ID: {chosenCustomer.CustomerId}, {chosenCustomer.FirstName} {chosenCustomer.LastName}. Active: {chosenCustomer.IsActive}");
                                 Console.WriteLine($"Tryck valfri knapp för att gå tillbaka...");
                                 Console.ReadKey();
                                 dbContext.SaveChanges();

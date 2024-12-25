@@ -1,5 +1,6 @@
 ﻿using HotellApp_Databasteknik_2.Data;
 using HotellApp_Databasteknik_2.Interfaces;
+using HotellApp_Databasteknik_2.Utilities.Calendar;
 namespace HotellApp_Databasteknik_2.Utilities.CRUD.Bookings
 {
     public class UpdateBooking : IUpdate
@@ -21,7 +22,7 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Bookings
                     {
                         foreach (var b in dbContext.Booking)
                         {
-                            Console.WriteLine($"BookingID: {b.BookingId}, (FK)RoomID: {b.RoomId}, (FK)CustomerID: {b.CustomerId}, Start date: {b.CheckInDate}, End date: {b.CheckOutDate}");
+                            Console.WriteLine($"BookingID: {b.BookingId}, (FK)RoomID: {b.RoomId}, (FK)CustomerID: {b.CustomerId}, Start date: {b.CheckInDate}, End date: {b.CheckOutDate}, Active: {b.IsActive}");
                         }
                         Console.WriteLine("Vilken bokning vill du uppdatera?");
                         var bookingIdInput = Convert.ToInt32(Console.ReadLine());
@@ -84,11 +85,18 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Bookings
                             Console.WriteLine($"Tryck valfri knapp för att gå till kalendern");
                             Console.ReadKey();
                             chosenBooking.CheckOutDate = _calendarForBooking.ShowCalendar().AddDays(1).AddTicks(-1);
-
-                            Console.WriteLine($"CustomerId: {chosenBooking.CustomerId}, {chosenCustomer.FirstName} {chosenCustomer.LastName}");
-                            Console.WriteLine($"RoomId: {chosenBooking.RoomId}, {chosenRoom.RoomType}, Price: {chosenRoom.PricePerNight}");
-                            Console.WriteLine($"Booking Id:{chosenBooking.BookingId}, (FK)CustomerId {chosenBooking.CustomerId}, (FK)RoomId: {chosenBooking.RoomId},  Check-In: {chosenBooking.CheckInDate}, Check-Out: {chosenBooking.CheckOutDate}");
-                            Console.WriteLine($"Är du nöjd med bokningen? (Skriv 'J' om du vill bekräfta bokningen, annars tryck valfri knapp).");
+                            int totalDays = (chosenBooking.CheckOutDate - chosenBooking.CheckInDate).Days;
+                            if (totalDays == 0)
+                            {
+                                totalDays = 1;
+                            }
+                            int totalPrice = totalDays * chosenRoom.PricePerNight;
+                            Console.WriteLine($"Du har valt kund: {chosenCustomer.CustomerId}, {chosenCustomer.FirstName} {chosenCustomer.LastName}");
+                            Console.WriteLine($"Du har valt rum: {chosenRoom.RoomId}, {chosenRoom.RoomType} Price: {chosenRoom.PricePerNight}, Amount of beds: {chosenRoom.Bed}");
+                            Console.WriteLine($"Check in datum: {chosenBooking.CheckInDate}");
+                            Console.WriteLine($"Check out datum: {chosenBooking.CheckOutDate}");
+                            Console.WriteLine($"Totalpris för bokningen: {totalPrice} kr");
+                            Console.WriteLine($"Är du nöjd med bokningen? (Skriv 'J' om du vill bekräfta bokningen annars skriv 'N' om du vill avbryta).");
                             char userInputForBooking = Convert.ToChar(Console.ReadLine().ToUpper());
                             if (userInputForBooking == 'J')
                             {
@@ -125,7 +133,7 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Bookings
                         {
                             foreach (var b in deletedBookings)
                             {
-                                Console.WriteLine($"BookingID: {b.BookingId}, (FK)RoomID: {b.RoomId}, (FK)CustomerID: {b.CustomerId}, Start date: {b.CheckInDate}, End date: {b.CheckOutDate}");
+                                Console.WriteLine($"BookingID: {b.BookingId}, (FK)RoomID: {b.RoomId}, (FK)CustomerID: {b.CustomerId}, Start date: {b.CheckInDate}, End date: {b.CheckOutDate}, Active: {b.IsActive}");
                             }
                             Console.WriteLine("Vilken bokning vill du ta tillbaka? (Välj ID)");
                             var bookingIdInput = Convert.ToInt32(Console.ReadLine());
@@ -136,7 +144,7 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Bookings
                                 Console.ForegroundColor = ConsoleColor.Green;
                                 Console.WriteLine("Bokningen är nu aktiv!");
                                 Console.ResetColor();
-                                Console.WriteLine($"BookingID: {chosenBooking.BookingId}, (FK)RoomID: {chosenBooking.RoomId}, (FK)CustomerID: {chosenBooking.CustomerId}, Start date: {chosenBooking.CheckInDate}, End date: {chosenBooking.CheckOutDate}");
+                                Console.WriteLine($"BookingID: {chosenBooking.BookingId}, (FK)RoomID: {chosenBooking.RoomId}, (FK)CustomerID: {chosenBooking.CustomerId}, Start date: {chosenBooking.CheckInDate}, End date: {chosenBooking.CheckOutDate}, Active: {chosenBooking.IsActive}");
                                 Console.WriteLine($"Tryck valfri knapp för att gå tillbaka...");
                                 Console.ReadKey();
                                 dbContext.SaveChanges();
@@ -150,6 +158,14 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Bookings
                                 Console.ReadKey();
                                 return;
                             }
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Det finns inga raderade bokningar just nu...");
+                            Console.ResetColor();
+                            Console.WriteLine($"Tryck valfri knapp för att gå tillbaka...");
+                            Console.ReadKey();
                         }
                     }
                     else

@@ -1,12 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace HotellApp_Databasteknik_2.Data
 {
     public class Data_Initializer
@@ -34,7 +27,7 @@ namespace HotellApp_Databasteknik_2.Data
                     new Room { RoomType = RoomType.Single, PricePerNight = 100, Bed = 1, IsActive = true },
                     new Room { RoomType = RoomType.Double, PricePerNight = 150, Bed = 2, IsActive = true },
                     new Room { RoomType = RoomType.Single, PricePerNight = 120, Bed = 1, IsActive = true },
-                    new Room { RoomType = RoomType.Double, PricePerNight = 200, Bed = 2, IsActive = true }
+                    new Room { RoomType = RoomType.Double, PricePerNight = 200, Bed = 3, IsActive = true }
                 );
             }
 

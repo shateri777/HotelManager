@@ -1,5 +1,6 @@
 ﻿using HotellApp_Databasteknik_2.Data;
 using HotellApp_Databasteknik_2.Interfaces;
+using HotellApp_Databasteknik_2.Utilities.Calendar;
 namespace HotellApp_Databasteknik_2.Utilities.CRUD.Bookings
 {
     public class CreateBooking : ICreate
@@ -15,7 +16,7 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Bookings
             {
                 if (dbContext.Customer != null && dbContext.Room != null)
                 {
-                    Console.WriteLine("Vilken kund är det som ska bokas in?");
+                    Console.WriteLine("Vilken kund är det som ska bokas in? (Välj ett KundID)");
                     var activeCustomers = dbContext.Customer.Where(c => c.IsActive == true).ToList();
                     foreach (var c in activeCustomers)
                     {
@@ -34,8 +35,7 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Bookings
                     }
                     Console.Clear();
                     var chosenCustomer = dbContext.Customer.FirstOrDefault(c => c.CustomerId == userInputForCustomerId);
-
-                    Console.WriteLine("Vilket rum är det som kunden ska stanna i?");
+                    Console.WriteLine("Vilket rum är det som kunden ska stanna i? (Välj ett RumID)");
                     var activeRooms = dbContext.Room.Where(r => r.IsActive == true).ToList();
                     foreach (var r in activeRooms)
                     {
@@ -68,9 +68,7 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Bookings
                     {
                         totalDays = 1;
                     }
-
                     int totalPrice = totalDays * chosenRoom.PricePerNight;
-
                     Console.WriteLine($"Du har valt kund: {chosenCustomer.CustomerId}, {chosenCustomer.FirstName} {chosenCustomer.LastName}");
                     Console.WriteLine($"Du har valt rum: {chosenRoom.RoomId}, {chosenRoom.RoomType} Price: {chosenRoom.PricePerNight}, Amount of beds: {chosenRoom.Bed}");
                     Console.WriteLine($"Check in datum: {startDate}");
@@ -99,6 +97,13 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Bookings
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Bokningen är avbruten.");
+                        Console.ResetColor();
+                        Console.ReadKey();
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Ogiltigt val, försök igen.");
                         Console.ResetColor();
                         Console.ReadKey();
                     }

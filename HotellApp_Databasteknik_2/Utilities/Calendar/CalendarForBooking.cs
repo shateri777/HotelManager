@@ -1,13 +1,9 @@
 ﻿using Spectre.Console;
-namespace HotellApp_Databasteknik_2.Utilities
+using static System.Runtime.InteropServices.JavaScript.JSType;
+namespace HotellApp_Databasteknik_2.Utilities.Calendar
 {
     public class CalendarForBooking
     {
-        private readonly StringWriter _stringWriter;
-        public CalendarForBooking(StringWriter stringWriter)
-        {
-            _stringWriter = stringWriter;
-        }
         public DateTime ShowCalendar()
         {
             DateTime currentDate = DateTime.Now;
@@ -38,7 +34,7 @@ namespace HotellApp_Databasteknik_2.Utilities
                         if (selectedDate < DateTime.Now)
                         {
                             Console.ForegroundColor = Color.Red;
-                            Console.WriteLine("Du kan inte välja dagens datum eller något innan dagens datum.");
+                            Console.WriteLine("Du kan inte välja dagens datum eller något tidigare datum.");
                             Console.ResetColor();
                             Console.ReadKey();
                         }
@@ -52,12 +48,12 @@ namespace HotellApp_Databasteknik_2.Utilities
                 }
             }
         }
-
         public void RenderCalendar(DateTime selectedDate)
         {
-            _stringWriter.WriteLine($"[red]{selectedDate:MMMM}[/]".ToUpper());
-            _stringWriter.WriteLine("Mån  Tis  Ons  Tor  Fre  Lör  Sön");
-            _stringWriter.WriteLine("─────────────────────────────────");
+            var calendar = new StringWriter();
+            calendar.WriteLine($"[red]{selectedDate:MMMM}[/]".ToUpper());
+            calendar.WriteLine("Mån  Tis  Ons  Tor  Fre  Lör  Sön");
+            calendar.WriteLine("─────────────────────────────────");
 
             DateTime firstDayOfMonth = new DateTime(selectedDate.Year, selectedDate.Month, 1);
             int daysInMonth = DateTime.DaysInMonth(selectedDate.Year, selectedDate.Month);
@@ -66,33 +62,29 @@ namespace HotellApp_Databasteknik_2.Utilities
 
             for (int i = 0; i < startDay; i++)
             {
-                _stringWriter.Write("     ");
+                calendar.Write("     ");
             }
-
-
             for (int day = 1; day <= daysInMonth; day++)
             {
                 if (day == selectedDate.Day)
                 {
-                    _stringWriter.Write($"[green]{day,2}[/]   ");
+                    calendar.Write($"[green]{day,2}[/]   ");
                 }
                 else
                 {
-                    _stringWriter.Write($"{day,2}   ");
+                    calendar.Write($"{day,2}   ");
                 }
 
                 if ((startDay + day) % 7 == 0)
                 {
-                    _stringWriter.WriteLine();
+                    calendar.WriteLine();
                 }
             }
-
-            var panel = new Panel(_stringWriter.ToString())
+            var panel = new Panel(calendar.ToString())
             {
                 Border = BoxBorder.Double,
                 Header = new PanelHeader($"[red]{selectedDate:yyyy}[/]", Justify.Center)
             };
-
             AnsiConsole.Write(panel);
             Console.WriteLine();
             AnsiConsole.MarkupLine("Använd piltangenter för att navigera och [green]Enter[/] för att välja.");

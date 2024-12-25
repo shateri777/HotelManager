@@ -1,6 +1,5 @@
 ﻿using HotellApp_Databasteknik_2.Data;
 using HotellApp_Databasteknik_2.Interfaces;
-using Microsoft.EntityFrameworkCore;
 namespace HotellApp_Databasteknik_2.Utilities.CRUD.Bookings
 {
     public class DeleteBooking : IDelete
@@ -19,7 +18,6 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Bookings
                     Console.WriteLine("Vilken bokning vill du ta bort?");
                     var bookingIdInput = Convert.ToInt32(Console.ReadLine());
                     var chosenBooking = dbContext.Booking.FirstOrDefault(b => b.BookingId == bookingIdInput);
-
                     if (chosenBooking != null && chosenBooking.IsActive == true)
                     {
                         chosenBooking.IsActive = false;

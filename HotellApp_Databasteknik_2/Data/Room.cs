@@ -5,7 +5,7 @@ namespace HotellApp_Databasteknik_2.Data
     public class Room
     {
         public int RoomId { get; set; }
-        [Column(TypeName = "nvarchar(max)")]
+        [Column(TypeName = "nvarchar(15)")]
         public RoomType RoomType { get; set; }
         public int PricePerNight { get; set; }
         public int Bed { get; set; }

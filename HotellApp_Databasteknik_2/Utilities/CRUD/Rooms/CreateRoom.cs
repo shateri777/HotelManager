@@ -9,12 +9,12 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Rooms
             using (var dbContext = new ApplicationDbContext())
             {
                 int amountOfBeds = 0;
-                Console.WriteLine("Vad är det för rum typ? Singelrum eller dubbelrum? | Kommandon: (Single/Double) eller (1/2)?");
+                Console.WriteLine("Vad är det för rum typ? Singelrum eller dubbelrum? | Kommandon: (Single/Double) eller (1/2)");
                 string userInput = Console.ReadLine();
                 Enum.TryParse(userInput, true, out RoomType roomType);
                 if (roomType == RoomType.Double)
                 {
-                    Console.WriteLine("Ange hur många extra sängar du vill ha (Max 2 extra sängar för dubbelrum):");
+                    Console.WriteLine("Ange hur många EXTRA sängar du vill ha (Du har 2 sängar som standard. Om du inte vill ha extra sängar, skriv 0. Du får välja upp till MAX 2 extra sängar för dubbelrum).");
                     amountOfBeds = Convert.ToInt32(Console.ReadLine());
                     if (amountOfBeds >= 0 && amountOfBeds <= 2)
                     {
@@ -44,8 +44,17 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Rooms
                     Console.ReadKey();
                     return;
                 }
-                Console.WriteLine("Hur mycket kostar det att bo där per natt?");
+                Console.WriteLine("Hur mycket kostar det att bo där per natt? (Min 100kr - Max 1000kr)");
+                Console.WriteLine("(Ange bara en siffra och inte en valuta)");
                 int pricePerNight = Convert.ToInt32(Console.ReadLine());
+                if (pricePerNight > 1000 || pricePerNight < 100)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Priset måste minst vara 100kr eller max 1000 kr per natt");
+                    Console.ResetColor();
+                    Console.ReadKey();
+                    return;
+                }
                 dbContext.Add(new Room
                 {
                     RoomType = roomType,

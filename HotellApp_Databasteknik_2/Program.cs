@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using HotellApp_Databasteknik_2.Data;
+using HotellApp_Databasteknik_2.Utilities.AutoFac;
 namespace HotellApp_Databasteknik_2
 {
     public class Program

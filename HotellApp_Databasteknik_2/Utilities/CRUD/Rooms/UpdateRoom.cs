@@ -19,7 +19,7 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Rooms
                         {
                             Console.WriteLine($"ID: {r.RoomId}, {r.RoomType}, Price: {r.PricePerNight}, Amount of beds: {r.Bed}, Active: {r.IsActive}");
                         }
-                        Console.WriteLine("Vilket rum vill du uppdatera?");
+                        Console.WriteLine("Vilket rum vill du uppdatera? (Välj ett RumID)");
                         var roomIdInput = Convert.ToInt32(Console.ReadLine());
                         var chosenRoom = dbContext.Room.FirstOrDefault(c => c.RoomId == roomIdInput);
                         if (chosenRoom != null)
@@ -29,17 +29,27 @@ namespace HotellApp_Databasteknik_2.Utilities.CRUD.Rooms
                             Enum.TryParse(userInput, true, out RoomType roomType);
                             if (roomType != RoomType.Single && roomType != RoomType.Double)
                             {
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine("Du får bara välja mellan Single och Double...");
-                                Console.WriteLine("Tryck valfri knapp för att gå tillbaka...");
+                                Console.ResetColor();
                                 Console.ReadKey();
                                 return;
                             }
                             chosenRoom.RoomType = roomType;
-                            Console.WriteLine("Hur mycket ska rummet kosta per natt?");
+                            Console.WriteLine("Hur mycket kostar det att bo där per natt? (Min 100kr - Max 1000kr)");
+                            Console.WriteLine("(Ange bara en siffra och inte en valuta)");
                             chosenRoom.PricePerNight = Convert.ToInt32(Console.ReadLine());
+                            if (chosenRoom.PricePerNight > 1000 || chosenRoom.PricePerNight < 100)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Priset måste minst vara 100kr eller max 1000 kr per natt");
+                                Console.ResetColor();
+                                Console.ReadKey();
+                                return;
+                            }
                             if (chosenRoom.RoomType == RoomType.Double)
                             {
-                                Console.WriteLine("Hur många sängar ska dubbelrummet ha? (du får bara välja 0 till 2 extra sängar)");
+                                Console.WriteLine("Ange hur många EXTRA sängar du vill ha (Du har 2 sängar som standard. Om du inte vill ha extra sängar, skriv 0. Du får välja upp till MAX 2 extra sängar för dubbelrum).)");
                                 int amountOfBeds = Convert.ToInt32(Console.ReadLine());
                                 if (amountOfBeds >= 0 && amountOfBeds <= 2)
                                 {
