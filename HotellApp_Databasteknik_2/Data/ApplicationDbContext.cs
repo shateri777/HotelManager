@@ -16,7 +16,7 @@ namespace HotellApp_Databasteknik_2.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=localhost\\MSSQLSERVER01;Database=Hotel;Trusted_Connection=True;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer("Server=localhost;Database=Hotel;Trusted_Connection=True;TrustServerCertificate=True;");
             }
         }
     }
